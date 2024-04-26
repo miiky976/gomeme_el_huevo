@@ -1,0 +1,12 @@
+package templates
+
+import (
+	"miiky976/Godis/utils"
+)
+
+templ Image(key, head string, image []byte) {
+	<div>
+		<h6>{ key }</h6>
+		<img src={ utils.Source(head, image) }/>
+	</div>
+}

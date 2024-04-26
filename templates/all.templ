@@ -1,0 +1,17 @@
+package templates
+
+import "miiky976/Godis/kv"
+
+templ All() {
+<div>
+	for _, item := range kv.KV {
+	if item.Type == "string" {
+	@Text(item.Key, string(item.Value))
+	}
+	if item.Type == "image/jpeg" || item.Type == "image/png" {
+	@Image(item.Key, item.Type, []byte(item.Value))
+
+	}
+	}
+</div>
+}
