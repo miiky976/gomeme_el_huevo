@@ -11,7 +11,7 @@
 <body>
 	<div class="master">
 		<h1>Personal Notes :)</h1>
-		<main hx-get="/text.html" hx-trigger="load" hx-swap="afterbegin" hx-target="#notes">
+		<main hx-get="/GETALL" hx-trigger="load" hx-swap="outerHTML" hx-target="#notes">
 			<div id="notes"></div>
 			<div class="actions">
 				<textarea name="note" placeholder="Note" hx-post="/SET" hx-swap="afterbegin" hx-target="#notes"

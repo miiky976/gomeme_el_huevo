@@ -11,11 +11,11 @@ var KV []*kv
 
 type kv struct {
 	Key   string
-	Value interface{}
+	Value []byte
 	Type  string
 }
 
-func SET(key string, value interface{}, Type string) {
+func SET(key string, value []byte, Type string) {
 	for _, v := range KV {
 		if v.Key == key {
 			v.Value = value
@@ -26,7 +26,7 @@ func SET(key string, value interface{}, Type string) {
 	KV = append(KV, &kv{key, value, Type})
 }
 
-func GET(key string) (interface{}, string) {
+func GET(key string) ([]byte, string) {
 	for _, v := range KV {
 		if v.Key == key {
 			return v.Value, v.Type
@@ -45,12 +45,12 @@ func DEL(key string) {
 }
 
 func Test() {
-	SET("key", "value", "string")
+	SET("key", []byte("value"), "string")
 	fmt.Println(GET("key"))
-	SET("key", "XDXD", "string")
+	SET("key", []byte("XDXD"), "string")
 	fmt.Println(GET("key"))
-	SET("newkey", "newvalue", "string")
-	SET("newone", "newone", "string")
+	SET("newkey", []byte("newvalue"), "string")
+	SET("newone", []byte("newone"), "string")
 	fmt.Println(GET("newkey"))
 	fmt.Println(GET("newone"))
 	DEL("newkey")

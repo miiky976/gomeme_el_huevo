@@ -25,23 +25,18 @@ func All() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"notes\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, item := range kv.KV {
 			if item.Type == "string" {
-				templ_7745c5c3_Err = Text(item.Key, string(item.Value)).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Text(item.Key, item.Value).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			if item.Type == "image/jpeg" || item.Type == "image/png" {
-				templ_7745c5c3_Err = Image(item.Key, item.Type, []byte(item.Value)).Render(ctx, templ_7745c5c3_Buffer)
+			} else if item.Type == "image/jpeg" || item.Type == "image/png" {
+				templ_7745c5c3_Err = Image(item.Key, item.Type, item.Value).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

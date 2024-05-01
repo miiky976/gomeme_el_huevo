@@ -24,5 +24,7 @@ func main() {
 
 	app.Post("/SETFILE", handler.AddFile)
 
+	app.Get("/GETALL", handler.GetAll)
+
 	app.Listen(port)
 }

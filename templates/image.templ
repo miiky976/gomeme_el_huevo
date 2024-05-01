@@ -5,8 +5,9 @@ import (
 )
 
 templ Image(key, head string, image []byte) {
-	<div>
+	<div class="item image">
 		<h6>{ key }</h6>
 		<img src={ utils.Source(head, image) }/>
+		<button class="copy">Copy</button>
 	</div>
 }

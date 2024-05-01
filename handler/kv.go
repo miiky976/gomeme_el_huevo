@@ -25,9 +25,10 @@ func generateKey() string {
 
 func AddText(c *fiber.Ctx) error {
 	note := c.FormValue("note")
+	noteb := []byte(note)
 	key := generateKey()
-	kv.SET(key, note, "string")
-	return Render(c, templates.Text(key, note))
+	kv.SET(key, noteb, "string")
+	return Render(c, templates.Text(key, noteb))
 }
 
 func AddFile(c *fiber.Ctx) error {
