@@ -2,10 +2,12 @@
 <html>
 
 <head>
-	<title>Home</title>
+	<title>Clipboard notes</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="https://unpkg.com/htmx.org@1.9.11"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="clip.js"></script>
+	<script src="hyperscript.js"></script>
 </head>
 
 <body>
@@ -13,16 +15,26 @@
 		<h1>Personal Notes :)</h1>
 		<main hx-get="/GETALL" hx-trigger="load" hx-swap="outerHTML" hx-target="#notes">
 			<div id="notes"></div>
-			<div class="actions">
-				<textarea name="note" placeholder="Note" hx-post="/SET" hx-swap="afterbegin" hx-target="#notes"
-					hx-trigger="keyup[shiftKey && keyCode==13]"></textarea>
-				<form enctype="multipart/form-data" hx-post="/SETFILE" hx-swap="afterbegin" hx-target="#notes">
+			<div class="actions" hx-target="#notes" hx-swap="beforeend">
+				<form hx-post="/SET" _="on submit reset() me">
+					<!-- 
+					<textarea name="note" placeholder="Note" hx-post="/SET" hx-trigger="keyup[shiftKey && keyCode==13]"
+						_="on keyup if the event's key is 'Enter' and 'Shift' set my value to ''"></textarea>
+					<input type="submit" value="Add"
+						_="on click wait 500ms set my previousElementSibling's value to ''">
+					-->
+					<textarea name="note" placeholder="Note" _="on keydown log event.key" required></textarea>
+					<input type="submit" value="Add">
+
+				</form>
+				<form enctype="multipart/form-data" hx-post="/SETFILE">
 					<input type="file" name="file" required>
 					<input type="submit" value="Upload">
 				</form>
 			</div>
 		</main>
 	</div>
+
 </body>
 
 </html>

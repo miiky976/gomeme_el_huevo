@@ -2,7 +2,6 @@ package main
 
 import (
 	"miiky976/Godis/handler"
-	"miiky976/Godis/kv"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,16 +14,13 @@ func main() {
 
 	app.Static("/", "./public")
 
-	app.Get("/templ", func(c *fiber.Ctx) error {
-		kv.Test()
-		return c.SendString("kv template loaded :)")
-	})
+	app.Get("/GETLOOP/:place", handler.GetLast)
+
+	app.Get("/GETALL", handler.GetAll)
 
 	app.Post("/SET", handler.AddText)
 
 	app.Post("/SETFILE", handler.AddFile)
-
-	app.Get("/GETALL", handler.GetAll)
 
 	app.Listen(port)
 }

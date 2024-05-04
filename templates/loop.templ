@@ -1,0 +1,8 @@
+package templates
+
+import "strconv"
+
+templ Loop(place int) {
+	<h1>HOLA</h1>
+	<div id="newnote" hx-get={ "/GETLOOP/" + strconv.Itoa(place) }></div>
+}

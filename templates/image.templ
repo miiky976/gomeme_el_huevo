@@ -7,7 +7,6 @@ import (
 templ Image(key, head string, image []byte) {
 	<div class="item image">
 		<h6>{ key }</h6>
-		<img src={ utils.Source(head, image) }/>
-		<button class="copy">Copy</button>
+		<img class="object" src={ utils.Source(head, image) }/>
 	</div>
 }

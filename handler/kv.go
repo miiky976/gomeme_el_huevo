@@ -7,6 +7,7 @@ import (
 	"miiky976/Godis/kv"
 	"miiky976/Godis/templates"
 	"os"
+	"strconv"
 
 	"github.com/a-h/templ"
 	"github.com/gofiber/fiber/v2"
@@ -45,6 +46,12 @@ func AddFile(c *fiber.Ctx) error {
 	osfile, _ := os.ReadFile("/tmp/" + file.Filename)
 	kv.SET(key, osfile, head)
 	return Render(c, templates.Image(key, head, osfile))
+}
+
+func GetLast(c *fiber.Ctx) error {
+	place, _ := strconv.Atoi(c.Params("place", "0"))
+	place += 1
+	return Render(c, templates.Loop(place))
 }
 
 func GetAll(c *fiber.Ctx) error {
