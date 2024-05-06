@@ -10,9 +10,9 @@ import "context"
 import "io"
 import "bytes"
 
-import "strconv"
+import "miiky976/Godis/kv"
 
-func Loop(place int) templ.Component {
+func Joiner(pos int) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -25,16 +25,18 @@ func Loop(place int) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"newnote\" hx-swap=\"outerHTML\" hx-trigger=\"revealed delay:1s\" hx-target=\"this\" hx-get=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		if kv.KV[pos].Type == "string" {
+			templ_7745c5c3_Err = Text(kv.KV[pos].Key, kv.KV[pos].Value).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else if kv.KV[pos].Type == "image/png" || kv.KV[pos].Type == "image/jpeg" {
+			templ_7745c5c3_Err = Image(kv.KV[pos].Key, kv.KV[pos].Type, kv.KV[pos].Value).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/GETLOOP/" +
-			strconv.Itoa(place)))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></div>")
+		templ_7745c5c3_Err = Loop(pos+1).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

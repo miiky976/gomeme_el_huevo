@@ -3,6 +3,12 @@ package templates
 import "strconv"
 
 templ Loop(place int) {
-	<h1>HOLA</h1>
-	<div id="newnote" hx-get={ "/GETLOOP/" + strconv.Itoa(place) }></div>
+	<div
+		id="newnote"
+		hx-swap="outerHTML"
+		hx-trigger="revealed delay:1s"
+		hx-target="this"
+		hx-get={ "/GETLOOP/" +
+	strconv.Itoa(place) }
+	></div>
 }

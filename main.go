@@ -2,6 +2,7 @@ package main
 
 import (
 	"miiky976/Godis/handler"
+	"miiky976/Godis/kv"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -11,6 +12,8 @@ import (
 func main() {
 	app := fiber.New()
 	port := os.Getenv("PORT")
+
+	kv.Test()
 
 	app.Static("/", "./public")
 

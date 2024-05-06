@@ -50,8 +50,10 @@ func AddFile(c *fiber.Ctx) error {
 
 func GetLast(c *fiber.Ctx) error {
 	place, _ := strconv.Atoi(c.Params("place", "0"))
-	place += 1
-	return Render(c, templates.Loop(place))
+	if place >= len(kv.KV) {
+		return Render(c, templates.Loop(place))
+	}
+	return Render(c, templates.Joiner(place))
 }
 
 func GetAll(c *fiber.Ctx) error {

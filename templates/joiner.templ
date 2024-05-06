@@ -1,0 +1,12 @@
+package templates
+
+import "miiky976/Godis/kv"
+
+templ Joiner(pos int) {
+	if kv.KV[pos].Type == "string" {
+		@Text(kv.KV[pos].Key, kv.KV[pos].Value)
+	} else if kv.KV[pos].Type == "image/png" || kv.KV[pos].Type == "image/jpeg" {
+		@Image(kv.KV[pos].Key, kv.KV[pos].Type, kv.KV[pos].Value)
+	}
+	@Loop(pos + 1)
+}
