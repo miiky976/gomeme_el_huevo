@@ -1,7 +1,5 @@
 package kv
 
-import "fmt"
-
 var KV []*kv
 
 // why struct?
@@ -46,14 +44,9 @@ func DEL(key string) {
 
 func Test() {
 	SET("key", []byte("value"), "string")
-	fmt.Println(GET("key"))
-	SET("key", []byte("XDXD"), "string")
-	fmt.Println(GET("key"))
 	SET("newkey", []byte("newvalue"), "string")
 	SET("newone", []byte("newone"), "string")
-	fmt.Println(GET("newkey"))
-	fmt.Println(GET("newone"))
-	DEL("newkey")
-	fmt.Println(GET("newkey"))
-
+	SET("aaa", []byte("sjklf"), "string")
+	SET("sam", []byte("jflaskd"), "string")
+	SET("des", []byte("mck"), "string")
 }
