@@ -7,27 +7,22 @@
 	<script src="htmx.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="clip.js"></script>
-	<script src="hyperscript.js"></script>
+	<script src="hyper.js"></script>
 </head>
 
 <body>
-	<div class="master">
-		<main hx-get="/GETLOOP/0" hx-trigger="load" hx-swap="outerHTML" hx-target="#notesall">
-			<div id="notes">
-				<div id="notesall"></div>
-			</div>
-			<div class="actions" hx-target="#notes" hx-swap="none">
-				<form hx-post="/SET" _="on submit reset() me">
-					<!--textarea name="note" placeholder="Note" _="on keydown log event.key" required></textarea-->
-					<textarea name="note" placeholder="Note" required></textarea>
-					<input type="submit" value="Add">
-				</form>
-				<form enctype="multipart/form-data" hx-post="/SETFILE" _="on submit reset() me">
-					<input type="file" name="file" required>
-					<input type="submit" value="Upload">
-				</form>
-			</div>
-		</main>
+	<main id="notes" hx-get="/GETLOOP/0" hx-trigger="load" hx-swap="outerHTML" hx-target="#notesall">
+		<div id="notesall"></div>
+	</main>
+	<div class="actions" hx-target="#notes" hx-swap="none">
+		<form hx-post="/SET" _="on submit reset() me">
+			<textarea name="note" placeholder="Note" required></textarea>
+			<input type="submit" value="Add">
+		</form>
+		<form enctype="multipart/form-data" hx-post="/SETFILE" _="on submit reset() me">
+			<input type="file" name="file" required>
+			<input type="submit" value="Upload">
+		</form>
 	</div>
 
 </body>
