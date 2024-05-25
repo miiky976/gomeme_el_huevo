@@ -19,8 +19,6 @@ func main() {
 
 	app.Get("/GETLOOP/:place", handler.GetLast)
 
-	app.Get("/GETALL", handler.GetAll)
-
 	app.Post("/SET", handler.AddText)
 
 	app.Post("/SETFILE", handler.AddFile)

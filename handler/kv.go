@@ -3,11 +3,11 @@ package handler
 import (
 	"crypto/rand"
 	"fmt"
-	"log"
 	"miiky976/Godis/kv"
 	"miiky976/Godis/templates"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/a-h/templ"
 	"github.com/gofiber/fiber/v2"
@@ -29,23 +29,23 @@ func AddText(c *fiber.Ctx) error {
 	noteb := []byte(note)
 	key := generateKey()
 	kv.SET(key, noteb, "string")
-	return Render(c, templates.Text(key, noteb))
+	return Render(c, templates.Noti("success", "Text saved"))
 }
 
 func AddFile(c *fiber.Ctx) error {
 	file, err := c.FormFile("file")
 	key := generateKey()
-	contentType := string(c.Request().Header.ContentType())
-	log.Printf("Content-Type: %s", contentType)
 	if err != nil {
-		log.Println("No se subio", err)
-		return c.SendString("No se subio :( <br>")
+		return Render(c, templates.Noti("failed", "Fail on upload"))
 	}
-	c.SaveFile(file, "/tmp/"+file.Filename)
+	if err := c.SaveFile(file, "/tmp/"+file.Filename); err != nil {
+		return Render(c, templates.Noti("failed", "Fail on save"))
+	}
 	head := file.Header.Get("Content-Type")
 	osfile, _ := os.ReadFile("/tmp/" + file.Filename)
+	os.Remove("/tmp/" + file.Filename)
 	kv.SET(key, osfile, head)
-	return Render(c, templates.Image(key, head, osfile))
+	return Render(c, templates.Noti("success", "File saved"))
 }
 
 func GetLast(c *fiber.Ctx) error {
@@ -56,6 +56,16 @@ func GetLast(c *fiber.Ctx) error {
 	return Render(c, templates.Joiner(place))
 }
 
-func GetAll(c *fiber.Ctx) error {
-	return Render(c, templates.All())
+// experimental
+func Stream(c *fiber.Ctx) error {
+	c.Set("Content-Type", "text/event-stream")
+	c.Set("Cache-Control", "no-cache")
+	c.Set("Connection", "keep-alive")
+	for true {
+		msg := generateKey()
+		c.SendString("Hola: " + msg)
+
+		time.Sleep(1 * time.Second)
+	}
+	return nil
 }
