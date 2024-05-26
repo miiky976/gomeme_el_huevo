@@ -1,52 +1,51 @@
 package kv
 
-var KV []*kv
+import "errors"
+
+var Master []*KV
 
 // why struct?
 // because i want to store the type
 // of the value, because it can be a string but also a file binary
 // and for my use case i need to know the type
 
-type kv struct {
-	Key   string
+type KV struct {
 	Value []byte
 	Type  string
 }
 
-func SET(key string, value []byte, Type string) {
-	for _, v := range KV {
-		if v.Key == key {
-			v.Value = value
-			v.Type = Type
-			return
-		}
-	}
-	KV = append(KV, &kv{key, value, Type})
+func Create(value []byte, Type string) *KV {
+	Master = append(Master, &KV{Value: value, Type: Type})
+	return &KV{Value: value, Type: Type}
 }
 
-func GET(key string) ([]byte, string) {
-	for _, v := range KV {
-		if v.Key == key {
-			return v.Value, v.Type
-		}
+func Read(i int) (*KV, error) {
+	elem := Master[i]
+	if elem == nil {
+		return nil, errors.New("Not found")
 	}
-	return nil, ""
+	return elem, nil
 }
 
-func DEL(key string) {
-	for i, v := range KV {
-		if v.Key == key {
-			KV = append(KV[:i], KV[i+1:]...)
-			return
-		}
+func Update(i int, value []byte, typo string) (*KV, error) {
+	elem := Master[i]
+	if elem == nil {
+		return nil, errors.New("Not found")
 	}
+	elem = &KV{value, typo}
+	return elem, nil
+}
+
+func Delete(i int) error {
+	elem := Master[i]
+	if elem == nil {
+		return errors.New("not exists")
+	}
+
+	Master = append(Master[:i], Master[i+1:]...)
+
+	return nil
 }
 
 func Test() {
-	SET("key", []byte("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris laoreet, nisi at sodales tristique, quam nibh cursus nisi, eu vestibulum orci dolor sit amet magna.\nNullam quis turpis nisi. Aliquam consequat, tortor sit amet tempor lobortis, sem nisl maximus nulla, id ornare dolor neque vel neque.\nMauris ut mollis dui, id pellentesque purus. Quisque pharetra pellentesque leo consequat consequat. Vestibulum dapibus lectus quam, vitae facilisis eros vulputate sed.\nSuspendisse viverra mi ac erat lobortis venenatis. Duis ultrices ipsum vitae mi finibus, a elementum felis lobortis.\nPhasellus id lacus orci. Phasellus imperdiet cursus dolor, eu mattis neque tristique eu. Donec non lorem justo."), "string")
-	SET("newkey", []byte("newvalue"), "string")
-	SET("newone", []byte("newone"), "string")
-	SET("aaa", []byte("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris laoreet, nisi at sodales tristique, quam nibh cursus nisi, eu vestibulum orci dolor sit amet magna.\nNullam quis turpis nisi. Aliquam consequat, tortor sit amet tempor lobortis, sem nisl maximus nulla, id ornare dolor neque vel neque.\nMauris ut mollis dui, id pellentesque purus. Quisque pharetra pellentesque leo consequat consequat. Vestibulum dapibus lectus quam, vitae facilisis eros vulputate sed.\nSuspendisse viverra mi ac erat lobortis venenatis. Duis ultrices ipsum vitae mi finibus, a elementum felis lobortis.\nPhasellus id lacus orci. Phasellus imperdiet cursus dolor, eu mattis neque tristique eu. Donec non lorem justo."), "string")
-	SET("sam", []byte("jflaskd"), "string")
-	SET("des", []byte("mck"), "string")
 }

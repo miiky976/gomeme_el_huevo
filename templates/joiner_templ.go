@@ -29,13 +29,13 @@ func Joiner(pos int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if kv.KV[pos].Type == "string" {
-			templ_7745c5c3_Err = Text(kv.KV[pos].Key, kv.KV[pos].Value).Render(ctx, templ_7745c5c3_Buffer)
+		if kv.Master[pos].Type == "string" {
+			templ_7745c5c3_Err = Text(pos, kv.Master[pos]).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-		} else if kv.KV[pos].Type == "image/png" || kv.KV[pos].Type == "image/jpeg" {
-			templ_7745c5c3_Err = Image(kv.KV[pos].Key, kv.KV[pos].Type, kv.KV[pos].Value).Render(ctx, templ_7745c5c3_Buffer)
+		} else if kv.Master[pos].Type == "image/png" || kv.Master[pos].Type == "image/jpeg" {
+			templ_7745c5c3_Err = Image(pos, kv.Master[pos]).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

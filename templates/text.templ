@@ -1,13 +1,20 @@
 package templates
 
-templ Text(key string, value []byte) {
-<div class="item text">
-	<h6>{ key }</h6>
-	<pre class="object">{ string(value) }</pre>
-	<button type="button" _="on click 
+import "miiky976/Godis/kv"
+import "strconv"
+
+templ Text(key int, elem *kv.KV) {
+	<div class="item text">
+		<h6>{ strconv.Itoa(key) }</h6>
+		<pre class="object">{ string(elem.Value) }</pre>
+		<button
+			type="button"
+			_="on click 
 				writeText(my previousElementSibling's innerText) on navigator.clipboard
 				put 'Copied' into me
 				wait 1s
-				put 'Copy' into me" class="copy">Copy</button>
-</div>
+				put 'Copy' into me"
+			class="copy"
+		>Copy</button>
+	</div>
 }

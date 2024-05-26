@@ -11,10 +11,12 @@ import "io"
 import "bytes"
 
 import (
+	"miiky976/Godis/kv"
 	"miiky976/Godis/utils"
+	"strconv"
 )
 
-func Image(key, head string, image []byte) templ.Component {
+func Image(key int, elem *kv.KV) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -31,7 +33,7 @@ func Image(key, head string, image []byte) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 string = key
+		var templ_7745c5c3_Var2 string = strconv.Itoa(key)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -40,7 +42,7 @@ func Image(key, head string, image []byte) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(utils.Source(head, image)))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(utils.Source(elem.Type, elem.Value)))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
