@@ -48,10 +48,12 @@ func AddFile(c *fiber.Ctx) error {
 
 func GetLast(c *fiber.Ctx) error {
 	place, _ := strconv.Atoi(c.Params("place", "0"))
-	if place >= len(kv.Master) {
-		return Render(c, templates.Loop(place))
+	fmt.Println(place)
+	if place == int(kv.GetNewKey()) || kv.Read(uint(place)) == nil {
+		return Render(c, templates.Loop(uint(place)))
 	}
-	return Render(c, templates.Joiner(place))
+	fmt.Println("renderizando")
+	return Render(c, templates.Joiner(uint(place)))
 }
 
 // experimental

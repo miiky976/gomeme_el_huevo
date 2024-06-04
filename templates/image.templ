@@ -1,14 +1,14 @@
 package templates
 
 import (
-	"miiky976/Godis/utils"
-	"miiky976/Godis/kv"
-	"strconv"
+"miiky976/Godis/utils"
+"miiky976/Godis/kv"
+"strconv"
 )
 
-templ Image(key int, elem *kv.KV) {
-	<div class="item image">
-		<h6>{ strconv.Itoa(key) }</h6>
-		<img class="object" src={ utils.Source(elem.Type, elem.Value) }/>
-	</div>
+templ Image(key uint, data *kv.Data) {
+<div class="item image">
+	<h6>{ strconv.Itoa(int(key)) }</h6>
+	<img class="object" src={ utils.Source(data.Type, data.Value) } />
+</div>
 }

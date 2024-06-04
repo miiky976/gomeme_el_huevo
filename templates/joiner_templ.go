@@ -12,7 +12,7 @@ import "bytes"
 
 import "miiky976/Godis/kv"
 
-func Joiner(pos int) templ.Component {
+func Joiner(pos uint) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -29,13 +29,13 @@ func Joiner(pos int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if kv.Master[pos].Type == "string" {
-			templ_7745c5c3_Err = Text(pos, kv.Master[pos]).Render(ctx, templ_7745c5c3_Buffer)
+		if kv.Read(pos).Type == "string" {
+			templ_7745c5c3_Err = Text(pos, kv.Read(pos)).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-		} else if kv.Master[pos].Type == "image/png" || kv.Master[pos].Type == "image/jpeg" {
-			templ_7745c5c3_Err = Image(pos, kv.Master[pos]).Render(ctx, templ_7745c5c3_Buffer)
+		} else if kv.Read(pos).Type == "image/png" || kv.Read(pos).Type == "image/jpeg" {
+			templ_7745c5c3_Err = Image(pos, kv.Read(pos)).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

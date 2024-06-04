@@ -2,11 +2,11 @@ package templates
 
 import "miiky976/Godis/kv"
 
-templ Joiner(pos int) {
-	@Loop(pos + 1)
-	if kv.Master[pos].Type == "string" {
-		@Text(pos, kv.Master[pos])
-	} else if kv.Master[pos].Type == "image/png" || kv.Master[pos].Type == "image/jpeg" {
-		@Image(pos, kv.Master[pos])
-	}
+templ Joiner(pos uint) {
+@Loop(pos + 1)
+if kv.Read(pos).Type == "string" {
+@Text(pos, kv.Read(pos))
+} else if kv.Read(pos).Type == "image/png" || kv.Read(pos).Type == "image/jpeg" {
+@Image(pos, kv.Read(pos))
+}
 }
