@@ -1,0 +1,17 @@
+package templates
+
+import "miiky976/Godis/kv"
+
+templ Load(place uint) {
+if kv.Read(place) == nil {
+<div>
+	Nothing to see here
+</div>
+return
+}
+if kv.Read(place).Type == "string" {
+@Text(place, kv.Read(place))
+} else if kv.Read(place).Type == "image/jpeg" || kv.Read(place).Type == "image/png" {
+@Image(place, kv.Read(place))
+}
+}

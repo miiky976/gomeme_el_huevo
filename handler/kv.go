@@ -49,11 +49,29 @@ func AddFile(c *fiber.Ctx) error {
 func GetLast(c *fiber.Ctx) error {
 	place, _ := strconv.Atoi(c.Params("place", "0"))
 	fmt.Println(place)
-	if place == int(kv.GetNewKey()) || kv.Read(uint(place)) == nil {
+	if kv.Read(uint(place)) == nil {
 		return Render(c, templates.Loop(uint(place)))
 	}
 	fmt.Println("renderizando")
 	return Render(c, templates.Joiner(uint(place)))
+}
+
+func Load(c *fiber.Ctx) error {
+	place, _ := strconv.Atoi(c.Params("place", "0"))
+	if kv.Read(uint(place)) == nil {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
+	return Render(c, templates.Load(uint(place)))
+}
+
+func LoadAll(c *fiber.Ctx) error {
+	var place uint = 0
+	var notes []*kv.Data
+	for kv.Read(place) != nil {
+		notes = append(notes, kv.Read(place))
+		place++
+	}
+	return Render(c, templates.All(kv.GetKeys()))
 }
 
 // experimental

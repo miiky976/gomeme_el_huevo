@@ -3,7 +3,7 @@ package templates
 import "strconv"
 
 templ Loop(place uint) {
-<div class="item" id="newnote" hx-swap="outerHTML" hx-trigger="revealed delay:500ms" hx-target="this"
+<div class="item" id="newnote" hx-swap="outerHTML" hx-trigger="revealed throttle:500ms" hx-target="this"
 	hx-get={ "/GETLOOP/" + strconv.Itoa(int(place)) }>
 	Loading next one...
 	<button hx-trigger="click" hx-get={ "/GETLOOP/" + strconv.Itoa(int(place)) }>Force</button>

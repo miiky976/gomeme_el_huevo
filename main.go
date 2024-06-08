@@ -23,5 +23,9 @@ func main() {
 
 	app.Post("/SETFILE", handler.AddFile)
 
+	app.Get("/load/:place", handler.Load)
+
+	app.Get("/loadall", handler.LoadAll)
+
 	app.Listen(port)
 }

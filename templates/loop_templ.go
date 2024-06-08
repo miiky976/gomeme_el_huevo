@@ -25,7 +25,7 @@ func Loop(place uint) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"item\" id=\"newnote\" hx-swap=\"outerHTML\" hx-trigger=\"revealed delay:500ms\" hx-target=\"this\" hx-get=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"item\" id=\"newnote\" hx-swap=\"outerHTML\" hx-trigger=\"revealed throttle:500ms\" hx-target=\"this\" hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

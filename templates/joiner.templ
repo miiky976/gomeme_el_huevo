@@ -1,12 +1,8 @@
 package templates
 
-import "miiky976/Godis/kv"
+import "strconv"
 
 templ Joiner(pos uint) {
 @Loop(pos + 1)
-if kv.Read(pos).Type == "string" {
-@Text(pos, kv.Read(pos))
-} else if kv.Read(pos).Type == "image/png" || kv.Read(pos).Type == "image/jpeg" {
-@Image(pos, kv.Read(pos))
-}
+<div hx-get={ "/load/" + strconv.Itoa(int(pos)) } hx-trigger="load" hx-target="this"></div>
 }

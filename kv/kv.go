@@ -1,8 +1,13 @@
 package kv
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+	"slices"
+)
 
 var kv = make(map[uint]*Data)
+var lastkey uint = 0
 
 // why struct?
 // because i want to store the type
@@ -15,7 +20,9 @@ type Data struct {
 }
 
 func Create(value []byte, Type string) {
-	key := GetNewKey()
+	key := lastkey // GetNewKey()
+	lastkey++
+	fmt.Println("new:", key)
 	kv[key] = &Data{Value: value, Type: Type}
 }
 
@@ -41,15 +48,20 @@ func Delete(key uint) error {
 
 func Test() {
 	Create([]byte("test"), "string")
+	Create([]byte("test2"), "string")
+	Create([]byte("test3"), "string")
+	Create([]byte("test4"), "string")
 }
 
-func GetNewKey() uint {
+func GetKeys() []uint {
 	if len(kv) == 0 {
-		return 0
+		return []uint{}
 	}
-	keys := make([]uint, 0, len(kv)-1)
+	keys := make([]uint, 0, len(kv))
 	for k := range kv {
 		keys = append(keys, k)
 	}
-	return keys[len(keys)-1] + 1
+	slices.Sort(keys)
+	slices.Reverse(keys)
+	return keys
 }
