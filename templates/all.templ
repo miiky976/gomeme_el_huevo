@@ -5,6 +5,7 @@ import "strconv"
 templ All(notes []uint) {
 @Loop(notes[0] + 1)
 for _, note := range notes {
-<div hx-get={ "/load/" + strconv.Itoa(int(note)) } hx-trigger="load" hx-target="this"></div>
+<div class="item" hx-get={ "/load/" + strconv.Itoa(int(note)) } hx-trigger="load" hx-target="this">Loading {
+	strconv.Itoa(int(note)) }</div>
 }
 }
