@@ -19,11 +19,12 @@ type Data struct {
 	Type  string
 }
 
-func Create(value []byte, Type string) {
+func Create(value []byte, Type string) uint {
 	key := lastkey // GetNewKey()
 	lastkey++
 	fmt.Println("new:", key)
 	kv[key] = &Data{Value: value, Type: Type}
+	return key
 }
 
 func Read(key uint) *Data {

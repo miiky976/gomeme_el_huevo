@@ -3,9 +3,15 @@ package templates
 import "strconv"
 
 templ All(notes []uint) {
+if len(notes) > 0 {
 @Loop(notes[0] + 1)
 for _, note := range notes {
-<div class="item" hx-get={ "/load/" + strconv.Itoa(int(note)) } hx-trigger="load" hx-target="this">Loading {
-	strconv.Itoa(int(note)) }</div>
+<div class="item" hx-get={ "/load/" + strconv.Itoa(int(note)) } hx-trigger="load" hx-target="this">
+	Loading {
+	strconv.Itoa(int(note)) }
+</div>
+}
+} else {
+@Loop(0)
 }
 }

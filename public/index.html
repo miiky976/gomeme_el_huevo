@@ -4,19 +4,21 @@
 <head>
 	<title>Clipboard notes</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="htmx.js"></script>
+	<script src="js/htmx.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="clip.js"></script>
-	<script src="hyper.js"></script>
+	<script src="js/clip.js"></script>
+	<script src="js/hyper.js"></script>
 </head>
 
 <body>
 	<main id="notes" hx-get="/loadall" hx-trigger="load" hx-swap="outerHTML" hx-target="#notesall">
 		<div id="notesall"></div>
 	</main>
+	<div hx-sse="connect:/sse swap:data" hx-trigger="sse:message" hx-swap="beforeend" hx-target="this">
+	</div>
 	<div class="actions" hx-target="#notes" hx-swap="none">
 		<form hx-post="/SET" _="on submit reset() me">
-			<textarea name="note" placeholder="Note" required></textarea>
+			<textarea name="note" placeholder="Note" hx-trigger="keyup[shiftKey && keyCode==13]" required></textarea>
 			<input type="submit" value="Add">
 		</form>
 		<form enctype="multipart/form-data" hx-post="/SETFILE" _="on submit reset() me">

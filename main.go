@@ -27,5 +27,7 @@ func main() {
 
 	app.Get("/loadall", handler.LoadAll)
 
+	app.Get("/sse", handler.Stream)
+
 	app.Listen(port)
 }

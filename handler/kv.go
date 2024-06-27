@@ -7,7 +7,6 @@ import (
 	"miiky976/Godis/templates"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/a-h/templ"
 	"github.com/gofiber/fiber/v2"
@@ -27,7 +26,8 @@ func generateKey() string {
 func AddText(c *fiber.Ctx) error {
 	note := c.FormValue("note")
 	noteb := []byte(note)
-	kv.Create(noteb, "string")
+	key := kv.Create(noteb, "string")
+	omega <- key
 	return Render(c, templates.Noti("success", "Text saved"))
 }
 
@@ -42,7 +42,8 @@ func AddFile(c *fiber.Ctx) error {
 	head := file.Header.Get("Content-Type")
 	osfile, _ := os.ReadFile("/tmp/" + file.Filename)
 	os.Remove("/tmp/" + file.Filename)
-	kv.Create(osfile, head)
+	key := kv.Create(osfile, head)
+	omega <- key
 	return Render(c, templates.Noti("success", "File saved"))
 }
 
@@ -72,18 +73,4 @@ func LoadAll(c *fiber.Ctx) error {
 		place++
 	}
 	return Render(c, templates.All(kv.GetKeys()))
-}
-
-// experimental
-func Stream(c *fiber.Ctx) error {
-	c.Set("Content-Type", "text/event-stream")
-	c.Set("Cache-Control", "no-cache")
-	c.Set("Connection", "keep-alive")
-	for true {
-		msg := generateKey()
-		c.SendString("Hola: " + msg)
-
-		time.Sleep(1 * time.Second)
-	}
-	return nil
 }
